@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>GET Demo</title>
+</head>
+<body>
+  <h1>GET Demo</h1>
+  <div id="result"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name") ?? "(kein name)";
+    const room = params.get("room") ?? "(kein room)";
+    document.getElementById("result").textContent =
+      `name=${name}, room=${room}`;
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>POST Demo</title>
+</head>
+<body>
+  <h1>POST Demo</h1>
+
+  <form id="f">
+    <label>User: <input name="user" /></label><br/>
+    <label>Message: <input name="msg" /></label><br/>
+    <button type="submit">Submit</button>
+  </form>
+
+  <pre id="out"></pre>
+
+  <script>
+    document.getElementById("f").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const user = fd.get("user") ?? "";
+      const msg  = fd.get("msg") ?? "";
+      document.getElementById("out").textContent =
+        `submitted:\nuser=${user}\nmsg=${msg}`;
+    });
+  </script>
+</body>
+</html>
