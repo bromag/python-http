@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Dropdown Demo</title>
+</head>
+<body>
+  <h1>Dropdown Demo</h1>
+
+  <label for="drop">Dropdown List:</label>
+  <select id="drop">
+    <option value="">-- bitte wählen --</option>
+    <option value="drop1">drop1</option>
+    <option value="drop2">drop2</option>
+    <option value="drop3">drop3</option>
+  </select>
+
+  <p id="selected">selected=</p>
+
+  <script>
+    const select = document.getElementById("drop");
+    const out = document.getElementById("selected");
+
+    function update() {
+      out.textContent = `selected=${select.value}`;
+    }
+
+    select.addEventListener("change", update);
+    update();
+  </script>
+</body>
+</html>

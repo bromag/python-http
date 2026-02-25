@@ -63,6 +63,12 @@ python myproject.py download --file test.pdf --download-dir ./downloads --headle
 <a id="dl" href="files/test.pdf" download>Download test.pdf</a>
 ```
 
+```bash
+python myproject.py dropdown --dropdown drop1 --headless
+python myproject.py dropdown --dropdown drop2 --headless
+python myproject.py dropdown --dropdown drop3 --headless
+```
+
 ### 6) Checkbox auswählen
 Öffnet `checkbox.html` (über Index-Navigation), wählt Checkbox 1 oder 2 aus und gibt `#status` aus.
 
@@ -71,9 +77,13 @@ python myproject.py checkbox --check 1 --headless
 python myproject.py checkbox --check 2 --headless
 ```
 
+### 7) Dropdown auswählen
+Öffnet `dropdown.html` (über Index-Navigation), wählt eine Option im Dropdown und gibt `#selected` aus.
+
+
 ## Wichtige HTML-IDs (damit Selenium Elemente findet)
 - `index.html`
-  - Navigation-Links (empfohlen): `nav-get`, `nav-post`, `nav-cookies`, `nav-checkbox`
+  - Navigation-Links (empfohlen): `nav-get`, `nav-post`, `nav-cookies`, `nav-checkbox`, `nav-dropdown`
   - Download-Link: `dl`
 - `get.html`
   - Output-Element: `result`
@@ -85,11 +95,7 @@ python myproject.py checkbox --check 2 --headless
 - `checkbox.html`
   - Checkboxen: `cb1`, `cb2`
   - Status-Element: `status`
+- `dropdown.html`
+  - Dropdown: `drop`
+  - Output-Element: `selected`
 
-## Troubleshooting (kurz)
-- `ModuleNotFoundError: No module named 'selenium'`
-  - In venv installieren: `python -m pip install selenium`
-- `NoSuchElementException`
-  - Prüfen, ob die IDs im HTML exakt stimmen (z.B. `id="dl"`, `id="nav-get"`, …)
-- Download wird nicht gespeichert
-  - Prüfen, ob Datei existiert (`web/files/test.pdf`) und MIME-Type passt (PDF: `application/pdf`)

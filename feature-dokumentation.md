@@ -23,6 +23,7 @@ nl -ba myproject.py | grep -n "def cmd_"
 | Cookies lesen | Ja | Navigiert via Index nach `cookies.html`, klickt `#set`, listet `driver.get_cookies()` | `myproject.py` + `web/cookies.html` | (mit `nl -ba` prüfen) |
 | Datei-Download | Ja | Klickt `#dl` auf `index.html`, wartet bis Datei im Download-Ordner stabil ist | `myproject.py` + `web/index.html` + `web/files/test.pdf` | (mit `nl -ba` prüfen) |
 | Checkbox auswählen | Ja | Navigiert via Index nach `checkbox.html`, wählt `cb1` oder `cb2`, gibt `#status` aus | `myproject.py` + `web/checkbox.html` | (mit `nl -ba` prüfen) |
+| Dropdown auswählen | Ja | Navigiert via Index nach `dropdown.html`, wählt Option im `<select>` und liest `#selected` | `myproject.py` + `web/dropdown.html` | (mit `nl -ba` prüfen) |
 | Startpunkt immer `index.html` | Ja | Helper navigiert von Index über Link-IDs (`nav-*`) | `myproject.py` + `web/index.html` | (mit `nl -ba` prüfen) |
 | Headless Mode | Ja | `--headless` startet Firefox ohne UI | `myproject.py` | (mit `nl -ba` prüfen) |
 | Download-Ordner Konfiguration | Ja | Firefox Preferences: Download dir, PDF ohne Prompt | `myproject.py` | (mit `nl -ba` prüfen) |

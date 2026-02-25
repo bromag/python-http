@@ -30,6 +30,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 # ^ Firefox-spezifische Browser-Optionen (headless, Fenstergrösse, etc.)
 
+from selenium.webdriver.support.ui import Select
+# ^ Für die Interaktion mit <select> Dropdowns (Select(driver.find_element(...)))
+
 
 def make_driver(headless: bool, download_dir: str) -> webdriver.Firefox:
     os.makedirs(download_dir, exist_ok=True)
@@ -87,6 +90,23 @@ def go_from_index(driver: webdriver.Firefox, index_url: str, link_id: str) -> No
     driver.find_element(By.ID, link_id).click()
     time.sleep(0.1)
 
+# ---------------------------
+# dropdown.html Test (Erweiterung)
+# ---------------------------
+def cmd_dropdown(driver: webdriver.Firefox, index_url: str, value: str) -> None:
+    """Dropdown-Test:
+    - startet auf index.html
+    - navigiert zur dropdown.html
+    - wählt einen Wert im <select id="drop">
+    - gibt den Text aus #selected aus
+    """
+    go_from_index(driver, index_url, "nav-dropdown")
+
+    select = Select(driver.find_element(By.ID, "drop"))
+    select.select_by_value(value)
+
+    time.sleep(0.1)
+    print(driver.find_element(By.ID, "selected").text)
 
 def cmd_get(driver: webdriver.Firefox, index_url: str, get_url: str, name: str, room: str) -> None:
     """
@@ -194,7 +214,7 @@ def cmd_download(driver: webdriver.Firefox, index_url: str, download_dir: str, f
 def parse_args():
     p = argparse.ArgumentParser(description="Python Selenium Projekt (Firefox)")
 
-    p.add_argument("command", help="title|get|post|list-cookies|download|checkbox")
+    p.add_argument("command", help="title|get|post|list-cookies|download|checkbox|dropdown")
     p.add_argument("--port", type=int, default=8000, help="Port deines lokalen Webservers")
     p.add_argument("--headless", action="store_true", help="Browser ohne Fenster ausführen")
 
@@ -208,6 +228,8 @@ def parse_args():
     p.add_argument("--file", default="test.pdf", help="Dateiname, der heruntergeladen wird")
 
     p.add_argument("--check", default="1", choices=["1", "2"], help="Welche Checkbox auswählen (1 oder 2)")
+
+    p.add_argument("--dropdown-value", default="drop2", help="Dropwown-Wert auswählen (z.B. drop1, drop2, drop3)")
     return p.parse_args()
 
 
@@ -234,6 +256,8 @@ def main():
             cmd_download(driver, url_index, args.download_dir, args.file)
         elif cmd == "checkbox":
             cmd_checkbox(driver, url_index, args.check)
+        elif cmd == "dropdown":
+            cmd_dropdown(driver, url_index, args.dropdown_value)
         else:
             print(f"Unknown command: {cmd}", file=sys.stderr)
             sys.exit(2)
