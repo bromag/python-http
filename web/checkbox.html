@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Checkbox Test</title>
+</head>
+<body>
+  <h1>Checkbox Test</h1>
+
+  <label>
+    <input type="checkbox" id="cb1" />
+    Option 1
+  </label>
+  <br />
+
+  <label>
+    <input type="checkbox" id="cb2" />
+    Option 2
+  </label>
+
+  <p id="status"></p>
+
+  <script>
+    function update() {
+      document.getElementById("status").textContent =
+        `cb1=${document.getElementById("cb1").checked}, cb2=${document.getElementById("cb2").checked}`;
+    }
+    document.getElementById("cb1").addEventListener("change", update);
+    document.getElementById("cb2").addEventListener("change", update);
+    update();
+  </script>
+</body>
+</html>
