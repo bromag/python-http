@@ -40,9 +40,3 @@ nl -ba myproject.py | grep -n "def cmd_"
   - Button `#set` setzt Cookies, Ausgabe (optional) auf der Seite
 - `web/checkbox.html`
   - Checkboxen `#cb1` / `#cb2`, Status in `#status`
-
-## Hinweis für die Abgabe
-Für eine prüfbare Abgabe ist es hilfreich, Screenshots oder Terminal-Outputs beizulegen, z.B.:
-- `python myproject.py get --name Test --room A1 --headless`
-- `python myproject.py download --file test.pdf --download-dir ./downloads --headless`
-- `python myproject.py checkbox --check 2 --headless`
