@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Input Demo</title>
+</head>
+<body>
+  <h1>Input Demo</h1>
+
+  <label for="txt">Text:</label>
+  <input id="txt" type="text" placeholder="tippe etwas..." />
+
+  <button id="send">Send</button>
+
+  <p id="echo">echo=</p>
+
+  <script>
+    const txt = document.getElementById("txt");
+    const echo = document.getElementById("echo");
+
+    document.getElementById("send").addEventListener("click", () => {
+      echo.textContent = `echo=${txt.value}`;
+    });
+  </script>
+</body>
+</html>

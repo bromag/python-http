@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Slider Demo</title>
+</head>
+<body>
+  <h1>Slider Demo</h1>
+
+  <label for="slider">Wert:</label>
+  <input id="slider" type="range" min="0" max="100" value="25" step="1" />
+  <p id="value">value=25</p>
+
+  <script>
+    const s = document.getElementById("slider");
+    const out = document.getElementById("value");
+
+    function update() {
+      out.textContent = `value=${s.value}`;
+    }
+    s.addEventListener("input", update);
+    update();
+  </script>
+</body>
+</html>
