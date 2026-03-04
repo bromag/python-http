@@ -60,6 +60,9 @@ def make_driver(headless: bool, download_dir: str) -> webdriver.Firefox:
 
     return webdriver.Firefox(options=opts)
 
+# ---------------------------
+# Hilfsfunktion: Basis-URL zum lokalen Webserver
+# ---------------------------
 
 def base_url(port: int) -> str:
     """
@@ -68,6 +71,9 @@ def base_url(port: int) -> str:
     """
     return f"http://127.0.0.1:{port}"
 
+# ---------------------------
+# Einfaches Auslesen von <title>
+# ---------------------------
 
 def cmd_title(driver: webdriver.Firefox, url: str) -> None:
     """
@@ -119,6 +125,9 @@ def cmd_get(driver: webdriver.Firefox, index_url: str, get_url: str, name: str, 
 
     print(driver.find_element(By.ID, "result").text)
 
+# ---------------------------
+# POST/Form-Test
+# ---------------------------
 
 def cmd_post(driver: webdriver.Firefox, index_url: str, user: str, msg: str) -> None:
     """
@@ -133,6 +142,9 @@ def cmd_post(driver: webdriver.Firefox, index_url: str, user: str, msg: str) -> 
     time.sleep(0.1)
     print(driver.find_element(By.ID, "out").text)
 
+# ---------------------------
+# Cookies-Test (Erweiterung)
+# ---------------------------
 
 def cmd_list_cookies(driver: webdriver.Firefox, index_url: str) -> None:
     """
@@ -175,6 +187,51 @@ def cmd_checkbox(driver: webdriver.Firefox, index_url: str, which: str) -> None:
 
 
 # ---------------------------
+# Input-Test (Erweiterung)
+# ---------------------------
+
+def cmd_input(driver: webdriver.Firefox, index_url: str, text: str) -> None:
+    """
+    Input-Test: vom Index auf input.html navigieren und Text eingeben.
+    """
+    go_from_index(driver, index_url, "nav-input")
+
+    txt = driver.find_element(By.ID, "txt")
+    txt.clear()
+    txt.send_keys(text)
+
+    driver.find_element(By.ID, "send").click()
+
+    time.sleep(0.1)
+    print(driver.find_element(By.ID, "echo").text)
+
+# ---------------------------
+# slider Test
+# ---------------------------
+
+def cmd_slider(driver: webdriver.Firefox, index_url: str, value: int) -> None:
+    """
+    Slider-Test:
+    - startet auf index.html
+    - navigiert zu slider.html
+    - setzt den Slider auf einen gewünschten Wert
+    - gibt den Text aus #value aus
+    """
+    go_from_index(driver, index_url, "nav-slider")
+
+    slider = driver.find_element(By.ID, "slider")
+
+    # Slider-Wert via JS setzen (stabiler als Dragging)
+    driver.execute_script(
+        "arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input'));",
+        slider,
+        str(value),
+    )
+
+    time.sleep(0.1)
+    print(driver.find_element(By.ID, "value").text)
+
+# ---------------------------
 # Download-Test (Erweiterung)
 # ---------------------------
 def wait_for_download(path: Path, timeout_s: int = 10) -> None:
@@ -214,7 +271,7 @@ def cmd_download(driver: webdriver.Firefox, index_url: str, download_dir: str, f
 def parse_args():
     p = argparse.ArgumentParser(description="Python Selenium Projekt (Firefox)")
 
-    p.add_argument("command", help="title|get|post|list-cookies|download|checkbox|dropdown")
+    p.add_argument("command", help="title|get|post|list-cookies|download|checkbox|dropdown|input|sliderß")
     p.add_argument("--port", type=int, default=8000, help="Port deines lokalen Webservers")
     p.add_argument("--headless", action="store_true", help="Browser ohne Fenster ausführen")
 
@@ -228,6 +285,10 @@ def parse_args():
     p.add_argument("--file", default="test.pdf", help="Dateiname, der heruntergeladen wird")
 
     p.add_argument("--check", default="1", choices=["1", "2"], help="Welche Checkbox auswählen (1 oder 2)")
+
+    p.add_argument("--input-text", default="Hello World", help="Text, der im Input-Feld eingegeben wird")
+
+    p.add_argument("--slider", type=int, default=50, help="Wert für den Slider (0-100)")
 
     p.add_argument("--dropdown-value", default="drop2", help="Dropwown-Wert auswählen (z.B. drop1, drop2, drop3)")
     return p.parse_args()
@@ -256,6 +317,10 @@ def main():
             cmd_download(driver, url_index, args.download_dir, args.file)
         elif cmd == "checkbox":
             cmd_checkbox(driver, url_index, args.check)
+        elif cmd == "input":
+            cmd_input(driver, url_index, args.input_text)
+        elif cmd == "slider":
+            cmd_slider(driver, url_index, args.slider)
         elif cmd == "dropdown":
             cmd_dropdown(driver, url_index, args.dropdown_value)
         else:
