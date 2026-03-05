@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Drag & Drop Demo</title>
+  <style>
+    #source {
+      width: 140px; padding: 10px; border: 1px solid #333;
+      display: inline-block; cursor: grab; user-select: none;
+    }
+    #target {
+      width: 220px; height: 120px; border: 2px dashed #666;
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-left: 20px;
+    }
+    #target.active { border-style: solid; }
+  </style>
+</head>
+<body>
+  <h1>Drag & Drop Demo</h1>
+
+  <div id="source" draggable="true">DRAG-ME</div>
+  <div id="target">drop here</div>
+
+  <p id="result">result=</p>
+
+  <script>
+    const source = document.getElementById("source");
+    const target = document.getElementById("target");
+    const result = document.getElementById("result");
+
+    source.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", source.textContent);
+    });
+
+    target.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      target.classList.add("active");
+    });
+
+    target.addEventListener("dragleave", () => target.classList.remove("active"));
+
+    target.addEventListener("drop", (e) => {
+      e.preventDefault();
+      target.classList.remove("active");
+      const data = e.dataTransfer.getData("text/plain");
+      result.textContent = `result=dropped:${data}`;
+    });
+  </script>
+</body>
+</html>

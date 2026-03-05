@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>Hover Demo</title>
+  <style>
+    #tooltip { display: none; margin-top: 10px; }
+    #box { display:inline-block; padding: 10px 14px; border: 1px solid #333; }
+    #box:hover + #tooltip { display: block; }
+  </style>
+</head>
+<body>
+  <h1>Hover Demo</h1>
+
+  <div id="box">Hover me</div>
+  <div id="tooltip">tooltip=visible</div>
+</body>
+</html>

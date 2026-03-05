@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Login Demo</title>
+</head>
+<body>
+  <h1>Login Demo</h1>
+
+  <label>Username:
+    <input id="username" type="text" />
+  </label>
+  <br/>
+
+  <label>Password:
+    <input id="password" type="password" />
+  </label>
+  <br/>
+
+  <button id="login">Login</button>
+
+  <p id="result">result=</p>
+
+  <script>
+    // Simple demo credentials (for testing only)
+    const VALID_USER = "admin";
+    const VALID_PASS = "secret";
+
+    document.getElementById("login").addEventListener("click", () => {
+      const u = document.getElementById("username").value;
+      const p = document.getElementById("password").value;
+
+      if (u === VALID_USER && p === VALID_PASS) {
+        document.getElementById("result").textContent = "result=OK";
+      } else {
+        document.getElementById("result").textContent = "result=FAIL";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Key Presses Demo</title>
+</head>
+<body>
+  <h1>Key Presses Demo</h1>
+
+  <input id="box" type="text" placeholder="type here..." />
+  <p id="output">output=</p>
+
+  <script>
+    const box = document.getElementById("box");
+    const out = document.getElementById("output");
+
+    box.addEventListener("keydown", (e) => {
+      out.textContent = `output=${e.key}`;
+    });
+  </script>
+</body>
+</html>

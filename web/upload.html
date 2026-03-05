@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Upload Demo</title>
+</head>
+<body>
+  <h1>Upload Demo</h1>
+
+  <input id="file" type="file" />
+  <button id="show">Show selected</button>
+
+  <p id="result">result=</p>
+
+  <script>
+    document.getElementById("show").addEventListener("click", () => {
+      const inp = document.getElementById("file");
+      if (!inp.files || inp.files.length === 0) {
+        document.getElementById("result").textContent = "result=NO_FILE";
+        return;
+      }
+      document.getElementById("result").textContent = "result=FILE:" + inp.files[0].name;
+    });
+  </script>
+</body>
+</html>
