@@ -33,6 +33,12 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
 # ^ Für die Interaktion mit <select> Dropdowns (Select(driver.find_element(...)))
 
+from selenium.webdriver.common.action_chains import ActionChains
+# ^ Für komplexe Interaktionen wie Hover, Drag&Drop, etc.
+
+from selenium.webdriver.common.keys import Keys
+# ^ Für Tastatureingaben (Keys.ENTER, Keys.ARROW_DOWN, etc.)
+
 
 def make_driver(headless: bool, download_dir: str) -> webdriver.Firefox:
     os.makedirs(download_dir, exist_ok=True)
@@ -232,6 +238,163 @@ def cmd_slider(driver: webdriver.Firefox, index_url: str, value: int) -> None:
     print(driver.find_element(By.ID, "value").text)
 
 # ---------------------------
+# hover Test (Erweiterung)
+# ---------------------------
+def cmd_hover(driver: webdriver.Firefox, index_url: str) -> None:
+    """
+    Hover-Test:
+    - startet auf index.html
+    - navigiert zu hover.html
+    - führt einen Hover über das Element #hover-area aus
+    - gibt den Text aus #hover-result aus
+    """
+    go_from_index(driver, index_url, "nav-hover")
+
+    hover_area = driver.find_element(By.ID, "box")
+    
+    ActionChains(driver).move_to_element(hover_area).perform()
+    time.sleep(0.1)
+
+    tooltip = driver.find_element(By.ID, "tooltip")
+    print(f"tooltip_displayed={tooltip.is_displayed()} text={tooltip.text}")
+
+# ---------------------------
+# drag and drop (Erweiterung)
+# ---------------------------
+def cmd_dragdrop(driver: webdriver.Firefox, index_url: str) -> None:
+    """
+    Drag&Drop-Test:
+    - startet auf index.html
+    - navigiert zu dragdrop.html
+    - draged von #source nach #target
+    - gibt den Text aus #result aus
+    """
+    go_from_index(driver, index_url, "nav-dragdrop")
+
+    source = driver.find_element(By.ID, "source")
+    target = driver.find_element(By.ID, "target")
+
+
+    js = """
+    const src = arguments[0];
+    const dst = arguments[1];
+
+    const dataTransfer = new DataTransfer();
+
+    function fire(el, type) {
+      const evt = new DragEvent(type, {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: dataTransfer
+      });
+      el.dispatchEvent(evt);
+    }
+
+    fire(src, "dragstart");
+    fire(dst, "dragenter");
+    fire(dst, "dragover");
+    fire(dst, "drop");
+    fire(src, "dragend");
+    """
+
+    driver.execute_script(js, source, target)
+    time.sleep(0.2)
+
+    print(driver.find_element(By.ID, "result").text)
+
+# ---------------------------
+# new window(Erweiterung)
+# ---------------------------
+def cmd_newwindow(driver: webdriver.Firefox, index_url: str) -> None:
+    """
+    New Window-Test:
+    - startet auf index.html
+    - navigiert zu newwindow.html
+    - klickt den Button, der ein neues Fenster öffnet
+    - wechselt zum neuen Fenster und gibt den <title> aus
+    """
+    go_from_index(driver, index_url, "nav-newwindow")
+
+    driver.find_element(By.ID, "open").click()
+    time.sleep(0.2)
+
+    windows = driver.window_handles
+    if len(windows) < 2:
+        print("Error: new window did not open", file=sys.stderr)
+        return
+
+    driver.switch_to.window(windows[1])
+    print(driver.title)
+
+# ---------------------------
+# Login (Erweiterung)
+# ---------------------------
+def cmd_login(driver: webdriver.Firefox, index_url: str, user: str, password: str) -> None:
+    """
+    Login-Test:
+    - startet auf index.html
+    - navigiert zu login.html
+    - füllt Benutzername und Passwort aus und klickt Login
+    - gibt den Text aus #status aus
+    """
+    go_from_index(driver, index_url, "nav-login")
+
+    driver.find_element(By.ID, "username").clear()
+    driver.find_element(By.ID, "username").send_keys(user)
+
+    driver.find_element(By.ID, "password").clear()
+    driver.find_element(By.ID, "password").send_keys(password)
+
+    driver.find_element(By.ID, "login").click()
+    time.sleep(0.1)
+
+    print(driver.find_element(By.ID, "result").text)
+
+# ---------------------------
+# keys Test (Erweiterung)
+# ---------------------------
+def cmd_keys(driver: webdriver.Firefox, index_url: str) -> None:
+    """
+    Keys-Test:
+    - startet auf index.html
+    - navigiert zu keys.html
+    - fokussiert das Eingabefeld und sendet einige Tasten (z.B. "Hello" + ENTER)
+    - gibt den Text aus #output aus
+    """
+    go_from_index(driver, index_url, "nav-keys")
+
+    input_box = driver.find_element(By.ID, "box")
+    input_box.click()  # Fokus setzen
+
+    input_box.send_keys("Hello World")
+    input_box.send_keys(Keys.ARROW_DOWN)
+
+    time.sleep(0.1)
+    print(driver.find_element(By.ID, "output").text)
+
+# ---------------------------
+# Upload-Test (Erweiterung)
+# ---------------------------
+def cmd_upload(driver: webdriver.Firefox, index_url: str, filepath: str) -> None:
+    """
+    Upload test:
+    - starts on index.html
+    - navigates to upload.html
+    - sets file path in <input type="file">
+    - clicks show
+    - prints #result
+    """
+    go_from_index(driver, index_url, "nav-upload")
+
+    file_input = driver.find_element(By.ID, "file")
+    file_input.send_keys(os.path.abspath(filepath))
+
+    driver.find_element(By.ID, "show").click()
+    time.sleep(0.1)
+
+    print(driver.find_element(By.ID, "result").text)
+
+# ---------------------------
 # Download-Test (Erweiterung)
 # ---------------------------
 def wait_for_download(path: Path, timeout_s: int = 10) -> None:
@@ -271,7 +434,7 @@ def cmd_download(driver: webdriver.Firefox, index_url: str, download_dir: str, f
 def parse_args():
     p = argparse.ArgumentParser(description="Python Selenium Projekt (Firefox)")
 
-    p.add_argument("command", help="title|get|post|list-cookies|download|checkbox|dropdown|input|sliderß")
+    p.add_argument("command", help="title|get|post|list-cookies|download|checkbox|dropdown|input|slider|hover|dragdrop|newwindow|login|upload|keys")
     p.add_argument("--port", type=int, default=8000, help="Port deines lokalen Webservers")
     p.add_argument("--headless", action="store_true", help="Browser ohne Fenster ausführen")
 
@@ -289,6 +452,11 @@ def parse_args():
     p.add_argument("--input-text", default="Hello World", help="Text, der im Input-Feld eingegeben wird")
 
     p.add_argument("--slider", type=int, default=50, help="Wert für den Slider (0-100)")
+
+    p.add_argument("--login_user", default="admin", help="Benutzername für Login")
+    p.add_argument("--login_pass", default="secret", help="Passwort für Login")
+
+    p.add_argument("--upload-file", default="./web/files/test.pdf", help="Path of file to upload")
 
     p.add_argument("--dropdown-value", default="drop2", help="Dropwown-Wert auswählen (z.B. drop1, drop2, drop3)")
     return p.parse_args()
@@ -323,6 +491,18 @@ def main():
             cmd_slider(driver, url_index, args.slider)
         elif cmd == "dropdown":
             cmd_dropdown(driver, url_index, args.dropdown_value)
+        elif cmd == "hover":
+            cmd_hover(driver, url_index)
+        elif cmd == "dragdrop":
+            cmd_dragdrop(driver, url_index)
+        elif cmd == "newwindow":
+            cmd_newwindow(driver, url_index)
+        elif cmd == "login":
+            cmd_login(driver, url_index, args.login_user, args.login_pass)
+        elif cmd == "upload":
+            cmd_upload(driver, url_index, args.upload_file)
+        elif cmd == "keys":
+            cmd_keys(driver, url_index)
         else:
             print(f"Unknown command: {cmd}", file=sys.stderr)
             sys.exit(2)
