@@ -1,7 +1,5 @@
 # Selenium HTTP Projekt – Feature-Dokumentation (mit Zeilennummern)
 
-Basis: `myproject.py` (Zeilennummern gemäss `nl -ba myproject.py`)
-
 ## Feature-Übersicht (Tabelle)
 
 | Command | Feature | Kurzbeschreibung | Datei | Zeilen (von–bis) |

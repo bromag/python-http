@@ -1,4 +1,4 @@
-# Minimale Dokumentation (Selenium HTTP Projekt)
+# Dokumentation (Selenium HTTP Projekt)
 
 ## Lokale Test-Webseite starten
 Im Ordner `web/`:
