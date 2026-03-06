@@ -1,39 +1,37 @@
-# Selenium HTTP Projekt – Feature-Dokumentation
+# Selenium HTTP Projekt – Feature-Dokumentation (mit Zeilennummern)
 
-Diese Dokumentation listet alle umgesetzten Features (Tests) in einer Tabelle auf.  
-Die exakten Zeilennummern in `myproject.py` können je nach Version variieren.
-
-**Zeilennummern ermitteln**
-```bash
-nl -ba myproject.py | grep -n "def cmd_"
-```
+Basis: `myproject.py` (Zeilennummern gemäss `nl -ba myproject.py`)
 
 ## Feature-Übersicht (Tabelle)
 
-| Command | Feature | Kurzbeschreibung | Testseite(n) | Output/Prüfung |
+| Command | Feature | Kurzbeschreibung | Datei | Zeilen (von–bis) |
 |---|---|---|---|---|
-| `title` | Title Scraping | Öffnet `index.html` und gibt den `<title>` aus (`driver.title`). | `web/index.html` | Terminal: Titeltext |
-| `get` | GET mit Variablen | Ruft `get.html?name=...&room=...` auf und liest `#result`. | `web/get.html` | Terminal: Inhalt von `#result` |
-| `post` | Form Submission | Navigiert via Index nach `post.html`, füllt Inputs und klickt Submit, liest `#out`. | `web/post.html` | Terminal: Inhalt von `#out` |
-| `list-cookies` | Cookies ausgeben | Navigiert via Index nach `cookies.html`, klickt `#set`, listet `driver.get_cookies()`. | `web/cookies.html` | Terminal: Cookies (name=value, domain, path) |
-| `download` | Datei-Download | Klickt `#dl` auf `index.html`, wartet bis Datei im Download-Ordner stabil ist. | `web/index.html`, `web/files/*` | Terminal: `OK: downloaded ...` |
-| `checkbox` | Checkbox auswählen | Navigiert via Index nach `checkbox.html`, wählt `cb1` oder `cb2`, liest `#status`. | `web/checkbox.html` | Terminal: Inhalt von `#status` |
-| `dropdown` | Dropdown auswählen | Navigiert via Index nach `dropdown.html`, wählt Option im `<select id="drop">`, liest `#selected`. | `web/dropdown.html` | Terminal: Inhalt von `#selected` |
-| `input` | Input-Test | Navigiert via Index nach `input.html`, schreibt Text in `#txt`, klickt `#send`, liest `#echo`. | `web/input.html` | Terminal: Inhalt von `#echo` |
-| `slider` | Slider-Test | Navigiert via Index nach `slider.html`, setzt Range-Input `#slider`, liest `#value`. | `web/slider.html` | Terminal: Inhalt von `#value` |
-| `hover` | Hover-Test | Navigiert via Index nach `hover.html`, hovert über `#box`, prüft `#tooltip`. | `web/hover.html` | Terminal: `tooltip_displayed=... text=...` |
-| `dragdrop` | Drag & Drop | Navigiert via Index nach `dragdrop.html`, zieht `#source` auf `#target`, liest `#result`. | `web/dragdrop.html` | Terminal: Inhalt von `#result` |
-| `newwindow` | New Window/Tab | Öffnet `newwindow.html`, klickt Link mit `target=_blank`, wechselt Fenster, prüft Inhalt, schliesst und geht zurück. | `web/newwindow.html`, `web/popup.html` | Terminal: Popup-Titel/H1 + Back-to-Titel |
-| `login` | Login-Test | Navigiert zu `login.html`, füllt Username/Password, klickt Login, liest `#result`. | `web/login.html` | Terminal: `result=OK/FAIL` |
-| `upload` | Upload-Test | Navigiert zu `upload.html`, setzt Datei in `<input type=file>`, klickt `#show`, liest `#result`. | `web/upload.html` | Terminal: `result=FILE:...` |
-| `keys` | Key Presses | Navigiert zu `keys.html`, sendet Tasten an Input, liest `#last`. | `web/keys.html` | Terminal: z. B. `last=Enter` |
+| `title` | Title Scraping | Öffnet `index.html` und gibt den `<title>` aus (`driver.title`). | `myproject.py` | 84–90 |
+| `get` | GET mit Variablen | Navigiert via Index zu GET und lädt `get.html?name=...&room=...`, liest `#result`. | `myproject.py` | 123–132 |
+| `post` | Form Submission | Navigiert via Index nach `post.html`, füllt Inputs, klickt Submit, liest `#out`. | `myproject.py` | 138–149 |
+| `list-cookies` | Cookies ausgeben | Navigiert via Index nach `cookies.html`, klickt `#set`, listet `driver.get_cookies()`. | `myproject.py` | 155–173 |
+| `download` | Datei-Download | Klickt `#dl` auf `index.html`, wartet auf fertigen Download (stabile Dateigrösse). | `myproject.py` | 418–431 (+ Helper 400–415) |
+| `checkbox` | Checkbox auswählen | Navigiert via Index nach `checkbox.html`, wählt `cb1` oder `cb2`, liest `#status`. | `myproject.py` | 179–192 |
+| `dropdown` | Dropdown auswählen | Navigiert via Index nach `dropdown.html`, wählt Option in `<select id="drop">`, liest `#selected`. | `myproject.py` | 108–121 |
+| `input` | Input-Test | Navigiert via Index nach `input.html`, setzt Text in `#txt`, klickt `#send`, liest `#echo`. | `myproject.py` | 199–212 |
+| `slider` | Slider-Test | Navigiert via Index nach `slider.html`, setzt `#slider` per JS, liest `#value`. | `myproject.py` | 218–238 |
+| `hover` | Hover-Test | Navigiert via Index nach `hover.html`, hovert über `#box`, prüft `#tooltip`. | `myproject.py` | 243–259 |
+| `dragdrop` | Drag & Drop | Navigiert via Index nach `dragdrop.html`, simuliert HTML5 Drag&Drop (JS Events), liest `#result`. | `myproject.py` | 264–303 |
+| `newwindow` | New Window/Tab | Navigiert via Index nach `newwindow.html`, öffnet neuen Tab/Fenster, wechselt und gibt `driver.title` aus. | `myproject.py` | 308–327 |
+| `login` | Login-Test | Navigiert via Index nach `login.html`, füllt Credentials, klickt Login, liest `#result`. | `myproject.py` | 332–351 |
+| `upload` | Upload-Test | Navigiert via Index nach `upload.html`, setzt Datei in `<input type=file>`, klickt `#show`, liest `#result`. | `myproject.py` | 378–395 |
+| `keys` | Key Presses | Navigiert via Index nach `keys.html`, sendet Keys (Text + Pfeil runter), liest `#output`. | `myproject.py` | 356–373 |
 
-## Benötigte IDs in `index.html` (Navigation)
-Empfohlen, damit alle Tests vom Index aus starten können:
+## Technische Helper / Infrastruktur
 
-- `nav-get`, `nav-post`, `nav-cookies`, `nav-checkbox`, `nav-dropdown`, `nav-input`, `nav-slider`, `nav-hover`, `nav-dragdrop`, `nav-newwindow`, `nav-login`, `nav-upload`, `nav-keys`
-- Download-Link: `dl`
+| Komponente | Zweck | Datei | Zeilen (von–bis) |
+|---|---|---|---|
+| `make_driver(...)` | Startet Firefox + setzt Download-Preferences | `myproject.py` | 43–67 |
+| `base_url(...)` | Basis-URL für lokalen Webserver | `myproject.py` | 73–78 |
+| `go_from_index(...)` | Startpunkt Index + Navigation über Link-ID | `myproject.py` | 96–103 |
+| `wait_for_download(...)` | Wartet auf fertigen Download (Dateigrösse stabil) | `myproject.py` | 400–415 |
+| `parse_args()` | CLI-Argumente / Defaults | `myproject.py` | 434–462 |
+| `main()` | Command-Dispatch / Ablaufsteuerung | `myproject.py` | 465–513 |
 
-## Hinweise für die Bewertung
-- Für die Abgabe ist es hilfreich, pro Command einen Terminal-Output (Screenshot oder Copy/Paste) beizulegen.
-- Für Zeilennummern: `nl -ba myproject.py | grep -n "def cmd_"` verwenden.
+## Hinweise
+- Die Tabelle referenziert nur `myproject.py`. Die zugehörigen HTML-Dateien liegen unter `web/`.
