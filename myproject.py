@@ -91,7 +91,7 @@ def cmd_title(driver: webdriver.Firefox, url: str) -> None:
     
 
 # ---------------------------
-# Navigation & Interaktion
+# Navigation und Interaktion
 # ---------------------------
 def go_from_index(driver: webdriver.Firefox, index_url: str, link_id: str) -> None:
     """
@@ -103,7 +103,7 @@ def go_from_index(driver: webdriver.Firefox, index_url: str, link_id: str) -> No
     time.sleep(0.1)
 
 # ---------------------------
-# dropdown.html Test (Erweiterung)
+# dropdown.html Test
 # ---------------------------
 def cmd_dropdown(driver: webdriver.Firefox, index_url: str, value: str) -> None:
     """Dropdown-Test:
@@ -149,7 +149,7 @@ def cmd_post(driver: webdriver.Firefox, index_url: str, user: str, msg: str) -> 
     print(driver.find_element(By.ID, "out").text)
 
 # ---------------------------
-# Cookies-Test (Erweiterung)
+# Cookies-Test
 # ---------------------------
 
 def cmd_list_cookies(driver: webdriver.Firefox, index_url: str) -> None:
@@ -173,7 +173,7 @@ def cmd_list_cookies(driver: webdriver.Firefox, index_url: str) -> None:
         )
 
 # ---------------------------
-# Checkbox-Test (Erweiterung)
+# Checkbox-Test
 # ---------------------------
 
 def cmd_checkbox(driver: webdriver.Firefox, index_url: str, which: str) -> None:
@@ -193,7 +193,7 @@ def cmd_checkbox(driver: webdriver.Firefox, index_url: str, which: str) -> None:
 
 
 # ---------------------------
-# Input-Test (Erweiterung)
+# Input-Test
 # ---------------------------
 
 def cmd_input(driver: webdriver.Firefox, index_url: str, text: str) -> None:
@@ -238,7 +238,7 @@ def cmd_slider(driver: webdriver.Firefox, index_url: str, value: int) -> None:
     print(driver.find_element(By.ID, "value").text)
 
 # ---------------------------
-# hover Test (Erweiterung)
+# hover Test
 # ---------------------------
 def cmd_hover(driver: webdriver.Firefox, index_url: str) -> None:
     """
@@ -259,7 +259,7 @@ def cmd_hover(driver: webdriver.Firefox, index_url: str) -> None:
     print(f"tooltip_displayed={tooltip.is_displayed()} text={tooltip.text}")
 
 # ---------------------------
-# drag and drop (Erweiterung)
+# drag and drop
 # ---------------------------
 def cmd_dragdrop(driver: webdriver.Firefox, index_url: str) -> None:
     """
@@ -303,7 +303,7 @@ def cmd_dragdrop(driver: webdriver.Firefox, index_url: str) -> None:
     print(driver.find_element(By.ID, "result").text)
 
 # ---------------------------
-# new window(Erweiterung)
+# new window
 # ---------------------------
 def cmd_newwindow(driver: webdriver.Firefox, index_url: str) -> None:
     """
@@ -327,7 +327,7 @@ def cmd_newwindow(driver: webdriver.Firefox, index_url: str) -> None:
     print(driver.title)
 
 # ---------------------------
-# Login (Erweiterung)
+# Login
 # ---------------------------
 def cmd_login(driver: webdriver.Firefox, index_url: str, user: str, password: str) -> None:
     """
@@ -351,7 +351,7 @@ def cmd_login(driver: webdriver.Firefox, index_url: str, user: str, password: st
     print(driver.find_element(By.ID, "result").text)
 
 # ---------------------------
-# keys Test (Erweiterung)
+# keys Test
 # ---------------------------
 def cmd_keys(driver: webdriver.Firefox, index_url: str) -> None:
     """
@@ -373,7 +373,7 @@ def cmd_keys(driver: webdriver.Firefox, index_url: str) -> None:
     print(driver.find_element(By.ID, "output").text)
 
 # ---------------------------
-# Upload-Test (Erweiterung)
+# Upload-Test
 # ---------------------------
 def cmd_upload(driver: webdriver.Firefox, index_url: str, filepath: str) -> None:
     """
@@ -395,7 +395,7 @@ def cmd_upload(driver: webdriver.Firefox, index_url: str, filepath: str) -> None
     print(driver.find_element(By.ID, "result").text)
 
 # ---------------------------
-# Download-Test (Erweiterung)
+# Download-Test
 # ---------------------------
 def wait_for_download(path: Path, timeout_s: int = 10) -> None:
     """
